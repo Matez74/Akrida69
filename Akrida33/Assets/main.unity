@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 1487166946}
   - component: {fileID: 1487166945}
   m_Layer: 0
-  m_Name: Triangle
+  m_Name: Spada
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
