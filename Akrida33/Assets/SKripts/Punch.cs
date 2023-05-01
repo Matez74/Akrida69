@@ -4,24 +4,41 @@ using UnityEngine;
 
 public class Punch : MonoBehaviour
 {
+    public Transform attackPoint;
+    public float attackRange = 0.5f;
+    public LayerMask enemyLayers;
+    Vector2 position;
+    public int Dmg = 20;
+    public float attackRate = 2f;
+    float nextAttackTime = 0f;
 
-   
-    // Update is called once per frame
+
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F))
+        if(Time.time >= nextAttackTime)
         {
-           transform.gameObject.tag = "Acctive";
+                if(Input.GetKeyDown(KeyCode.F))
+            {
+                Attack();
+                nextAttackTime = Time.time + 1f / attackRate;
+            }
         }
-        
-        
-        if(gameObject.tag == "Acctive")
-            Debug.Log("yess");
-
-
+       
     }
-    private void LateUpdate() 
+    void Attack()
     {
-    transform.gameObject.tag = "neAcctive"; 
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position,attackRange, enemyLayers);
+
+        foreach(Collider2D enemy in hitEnemies)
+        {
+            enemy.GetComponent<Health>().takeDmg(Dmg);
+        }
+    }
+    private void OnDrawGizmosSelected() 
+    {
+        if(attackPoint == null)
+        return;
+
+        Gizmos.DrawWireSphere(attackPoint.position,attackRange);
     }
 }
